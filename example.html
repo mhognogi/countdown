@@ -1,0 +1,22 @@
+<span id="timer">05:00</span>
+
+<script>
+    window.onload = function () {
+        var ore = 1;
+        var min = 2;
+        var sec = 60;
+        setInterval(function () {
+            var a = new Date();
+            document.getElementById("timer").innerHTML = ore + ':' + min + ":" + sec;
+            sec--;
+            if (sec == 00) {
+                min--;
+                sec = 60;
+                if(min == 00){
+                    ore--;
+                    min = 60;
+                }
+            }
+        }, 1000);
+    }
+</script>
