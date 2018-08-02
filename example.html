@@ -1,22 +1,42 @@
 <span id="timer">05:00</span>
 
 <script>
-    window.onload = function () {
-        var ore = 1;
-        var min = 2;
-        var sec = 60;
+    window.onload = delta_time(1, 2018, 7, 2, 15, 1, 50);
+    function delta_time(id, year, month, day, hour, min, sec) {
         setInterval(function () {
-            var a = new Date();
-            document.getElementById("timer").innerHTML = ore + ':' + min + ":" + sec;
-            sec--;
-            if (sec == 00) {
-                min--;
-                sec = 60;
-                if(min == 00){
-                    ore--;
-                    min = 60;
-                }
+            var date1 = new Date();
+            var date2 = new Date(year, month, day, hour, min, sec);
+            date1 = (date1.getTime())/1000;
+            date2 = (date2.getTime())/1000;
+            var seconds = Math.round(date2 - date1);
+            seconds = Math.abs(seconds);
+            var sign = null;
+            if(date1 > date2){
+                sign = '-';
             }
-        }, 1000);
+
+            var html = sec_totime(seconds, sign);
+            document.getElementById("timer").innerHTML = html;
+
+        }, 100);
+    }
+
+    function sec_totime(seconds, sign){
+        var days = Math.floor(seconds / (3600*24));
+        seconds  -= days*3600*24;
+        var hrs   = Math.floor(seconds / 3600);
+        seconds  -= hrs*3600;
+        var mnts = Math.floor(seconds / 60);
+        seconds  -= mnts*60;
+        var html;
+        if(Math.abs(days) > 0){
+            html = sign + days;
+        } else if(sign != null) {
+            html = "<span style='background: #f99; padding: 2px; color: #000;'>" + sign + " " + hrs + ":" + mnts + ":" + seconds + "</span>";
+        } else {
+            html = sign + " " + hrs + ":" + mnts + ":" + seconds;
+        }
+
+        return html;
     }
 </script>
